@@ -8,7 +8,8 @@ import '../globals.dart';
 
 class SignatureCaptureScreen extends StatefulWidget {
   final Shipment shipment;
-  const SignatureCaptureScreen({super.key, required this.shipment});
+  final VoidCallback onBack;
+  const SignatureCaptureScreen({super.key, required this.shipment, required this.onBack});
 
   @override
   State<SignatureCaptureScreen> createState() => _SignatureCaptureScreenState();
@@ -17,30 +18,49 @@ class SignatureCaptureScreen extends StatefulWidget {
 class _SignatureCaptureScreenState extends State<SignatureCaptureScreen> {
   final SignatureController _signatureController = SignatureController(penStrokeWidth: 3, penColor: Colors.black, exportBackgroundColor: Colors.white);
 
+  @override
+  void dispose() {
+    _signatureController.dispose();
+    super.dispose();
+  }
+
   Future<void> _submitSignature() async {
     if (_signatureController.isEmpty) return;
     isScanningSignal.value = true;
     try {
       final signatureBytes = await _signatureController.toPngBytes();
       if (signatureBytes == null) return;
-      
+
       final byteData = ByteData.view(signatureBytes.buffer);
       final fileName = 'signatur_${widget.shipment.id}_${DateTime.now().millisecondsSinceEpoch}.png';
       final uploadedSignatureUrl = await client.shipment.uploadImage(byteData, fileName);
 
-      if (uploadedSignatureUrl != null && widget.shipment.id != null && mounted) {
+      if (uploadedSignatureUrl != null && widget.shipment.id != null) {
         await client.shipment.deliverPackage(widget.shipment.id!, uploadedSignatureUrl, currentUserSignal.value?.name ?? 'Unbekannt');
-        ShadToaster.of(context).show(const ShadToast(title: Text('✅ Übergabe erfolgreich')));
-        Navigator.of(context).popUntil((route) => route.isFirst);
+        if (mounted) {
+          ShadToaster.of(context).show(const ShadToast(title: Text('✅ Übergabe erfolgreich')));
+          handoverShipmentSignal.value = null;
+          selectedShipmentIdSignal.value = widget.shipment.id;
+        }
       }
-    } catch (e) { print("Fehler: $e"); } 
+    } catch (e) { debugPrint("Fehler: $e"); }
     finally { isScanningSignal.value = false; }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Übergabe bestätigen')),
+      backgroundColor: const Color(0xFFF5F5F7),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.black87),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black87),
+          onPressed: widget.onBack,
+        ),
+        title: const Text('Übergabe bestätigen', style: TextStyle(color: Colors.black87, fontSize: 18, fontWeight: FontWeight.bold)),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(

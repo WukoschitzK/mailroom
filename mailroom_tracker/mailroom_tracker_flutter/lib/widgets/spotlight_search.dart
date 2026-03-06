@@ -15,6 +15,12 @@ class _SpotlightSearchDialogState extends State<SpotlightSearchDialog> {
   List<Map<String, dynamic>> _searchResults = [];
   bool _isLoading = false;
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   Future<void> _performSearch(String query) async {
     if (query.isEmpty) {
       setState(() => _searchResults = []);
@@ -28,7 +34,7 @@ class _SpotlightSearchDialogState extends State<SpotlightSearchDialog> {
         _searchResults = result.hits.cast<Map<String, dynamic>>();
       });
     } catch (e) {
-      print("Suchfehler: $e");
+      debugPrint("Suchfehler: $e");
     } finally {
       setState(() => _isLoading = false);
     }
@@ -42,12 +48,12 @@ class _SpotlightSearchDialogState extends State<SpotlightSearchDialog> {
       insetPadding: const EdgeInsets.only(top: 120, left: 20, right: 20, bottom: 20), // <-- NEU: Abstand nach oben
       backgroundColor: Colors.transparent,
       child: Container(
-        width: 500, // <-- NEU: Etwas schlanker (vorher 600)
+        width: 500,
         constraints: const BoxConstraints(maxHeight: 500),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 20, spreadRadius: 5)],
+          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 20, spreadRadius: 5)],
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -61,9 +67,7 @@ class _SpotlightSearchDialogState extends State<SpotlightSearchDialog> {
                 decoration: InputDecoration(
                   hintText: 'Suche nach Namen, Abteilung...',
                   border: InputBorder.none,
-                  // NEU: Icon-Größe von 32 auf 20 reduziert
                   icon: const Icon(Icons.search, size: 20, color: Colors.blueGrey),
-                  // NEU: Lade-Indikator verkleinert, damit er nicht das Feld sprengt
                   suffixIcon: _isLoading 
                       ? Transform.scale(scale: 0.6, child: CircularProgressIndicator(strokeWidth: 3)) 
                       : null,
@@ -86,9 +90,9 @@ class _SpotlightSearchDialogState extends State<SpotlightSearchDialog> {
                           ? 'Notiz: ${hit['note']}' : 'Status: ${hit['status']}'),
                       trailing: const Icon(Icons.chevron_right),
                       onTap: () {
-                        Navigator.pop(context); // Dialog zu
-                        selectedShipmentIdSignal.value = hit['id']; // SPA-Route zu Detail
-                        Navigator.popUntil(context, (route) => route.isFirst); // Zurück zum Dashboard
+                        Navigator.pop(context);
+                        selectedShipmentIdSignal.value = hit['id'];
+                        Navigator.popUntil(context, (route) => route.isFirst);
                       },
                     );
                   },
@@ -106,7 +110,7 @@ void showSpotlightSearch(BuildContext context) {
     context: context,
     barrierDismissible: true,
     barrierLabel: 'Spotlight',
-    barrierColor: Colors.black.withOpacity(0.5),
+    barrierColor: Colors.black.withValues(alpha: 0.5),
     transitionDuration: const Duration(milliseconds: 200),
     pageBuilder: (context, anim1, anim2) => const SpotlightSearchDialog(),
     transitionBuilder: (context, anim1, anim2, child) {

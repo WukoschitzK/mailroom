@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'globals.dart';
 import 'screens/login_screen.dart';
-import 'screens/dashboard_screens.dart'; // Direkt das Dashboard importieren
+import 'screens/dashboard_screen.dart';
 import 'widgets/spotlight_search.dart';
 
 void main() {
@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
       home: ValueListenableBuilder(
         valueListenable: currentUserSignal,
         builder: (context, user, child) {
-          // Nach dem Login direkt ins Live-Dashboard leiten!
           return user == null ? const LoginScreen() : const ManagementDashboardScreen();
         },
       ),

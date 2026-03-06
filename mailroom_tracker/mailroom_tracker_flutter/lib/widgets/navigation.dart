@@ -28,13 +28,11 @@ class MailroomSidebar extends StatelessWidget {
               
               _buildSidebarItem(Icons.dashboard_outlined, 'Dashboard', false, () {}),
               
-              // SENDUNGEN (Aktiv, wenn wir NICHT im "Neu"-Modus sind)
               _buildSidebarItem(Icons.inventory_2, 'Sendungen', !isCreatingNew, () {
                 isCreatingNewSignal.value = false;
                 selectedShipmentIdSignal.value = null; // Zurück zur Liste
               }),
               
-              // NEUE SENDUNG (Ersetzt Reports!)
               _buildSidebarItem(Icons.add_circle_outline, 'Neue Sendung', isCreatingNew, () {
                 isCreatingNewSignal.value = true;
               }),
@@ -47,7 +45,6 @@ class MailroomSidebar extends StatelessWidget {
     );
   }
 
-  // NEU: Die Methode nimmt jetzt auch einen onTap-Callback entgegen
   Widget _buildSidebarItem(IconData icon, String label, bool isActive, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
@@ -55,7 +52,7 @@ class MailroomSidebar extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 8),
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        decoration: BoxDecoration(color: isActive ? Colors.white.withOpacity(0.1) : Colors.transparent, borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(color: isActive ? Colors.white.withValues(alpha: 0.1) : Colors.transparent, borderRadius: BorderRadius.circular(8)),
         child: Row(
           children: [
             Icon(icon, color: isActive ? const Color(0xFFFDE047) : Colors.grey, size: 20),

@@ -14,9 +14,15 @@ class _LoginScreenState extends State<LoginScreen> {
   String? _errorMessage;
 
   @override
+  void dispose() {
+    _pinController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
     super.initState();
-    client.auth.seedUsers().catchError((e) => print("Seeder Fehler: $e"));
+    client.auth.seedUsers().catchError((e) => debugPrint("Seeder Fehler: $e"));
   }
 
   Future<void> _handleLogin() async {
