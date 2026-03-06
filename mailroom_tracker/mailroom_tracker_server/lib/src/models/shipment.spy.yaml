@@ -1,0 +1,20 @@
+class: Shipment
+table: shipment
+fields:
+  identifier: String
+  direction: String
+  type: String
+  status: String
+  trackingNumber: String?
+  recipientText: String?
+  recipientId: int?
+  isDamaged: bool
+  imageUrl: String
+  signatureImageUrl: String?
+  scannedAt: DateTime
+  deliveredAt: DateTime?
+  note: String?           # Manuelle Notiz der Poststelle
+  createdBy: String?      # Name des Users, der es angelegt hat
+  deliveredBy: String?    # Name des Users, der es übergeben hat
+  storageLocation: String? # Der Ablageort (z.B. "Poststelle" oder "Empfang")
+  auditLog: String?       # Das Logbuch für alle manuellen Änderungen

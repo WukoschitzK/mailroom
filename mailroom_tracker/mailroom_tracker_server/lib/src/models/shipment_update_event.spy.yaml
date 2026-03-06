@@ -1,0 +1,4 @@
+class: ShipmentUpdateEvent
+fields:
+  shipment: Shipment
+  action: String # z.B. 'created' oder 'updated'

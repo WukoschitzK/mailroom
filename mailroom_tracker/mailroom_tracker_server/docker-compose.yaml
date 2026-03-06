@@ -1,0 +1,44 @@
+services:
+  # Development services
+  postgres:
+    image: postgres:16.3
+    ports:
+      - "8090:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: mailroom_tracker
+      POSTGRES_PASSWORD: "hguxmahJFsKAIWByS7UwFrbr40-XrYFo"
+    volumes:
+      - mailroom_tracker_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6.2.6
+    ports:
+      - "8091:6379"
+    command: redis-server --requirepass "Fn-YPUUBZunnnI7qF-kXW0aQiqsHnSMS"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+  # Test services
+  postgres_test:
+    image: postgres:16.3
+    ports:
+      - "9090:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: mailroom_tracker_test
+      POSTGRES_PASSWORD: "laYE-LOacVriFDUuK5otGB1CZYCL21Hx"
+    volumes:
+      - mailroom_tracker_test_data:/var/lib/postgresql/data
+
+  redis_test:
+    image: redis:6.2.6
+    ports:
+      - "9091:6379"
+    command: redis-server --requirepass "v_Gxmh1C96rEleONqGWCvh4o03SpILdW"
+    environment:
+      - REDIS_REPLICATION_MODE=master
+
+volumes:
+  mailroom_tracker_data:
+  mailroom_tracker_test_data:

@@ -1,0 +1,15 @@
+auth:
+  - login:
+  - seedUsers:
+shipment:
+  - createShipment:
+  - getAllShipments:
+  - analyzePackage:
+  - saveAnalyzedShipment:
+  - updateShipmentDetails:
+  - deliverPackage:
+  - uploadImage:
+  - seedDatabase:
+  - resolveEmployeeDetails:
+greeting:
+  - hello:

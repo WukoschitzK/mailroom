@@ -1,0 +1,7 @@
+class: MailroomUser
+table: mailroom_user
+fields:
+  name: String
+  pin: String
+  role: String # z.B. "Leitung" oder "Zusteller"
+  location: String # Abteilung (z.B. "Poststelle" oder "Empfang")

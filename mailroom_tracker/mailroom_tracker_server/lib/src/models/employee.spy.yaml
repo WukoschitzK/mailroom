@@ -1,0 +1,9 @@
+class: Employee
+table: employee
+fields:
+  name: String
+  department: String
+  isAbsent: bool
+  substituteId: int?
+  email: String?        # NEU: Email-Adresse
+  officeNumber: String? # NEU: Büronummer

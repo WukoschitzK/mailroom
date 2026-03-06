@@ -1,0 +1,5 @@
+class: DispatchList
+table: dispatch_lists
+fields:
+  createdAt: DateTime
+  status: String

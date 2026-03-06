@@ -1,0 +1,110 @@
+{
+  "actions": [
+    {
+      "type": "deleteTable",
+      "deleteTable": "mailroom_user"
+    },
+    {
+      "type": "createTable",
+      "createTable": {
+        "name": "mailroom_user",
+        "dartName": "MailroomUser",
+        "module": "mailroom_tracker",
+        "schema": "public",
+        "columns": [
+          {
+            "name": "id",
+            "columnType": 6,
+            "isNullable": false,
+            "columnDefault": "nextval('mailroom_user_id_seq'::regclass)",
+            "dartType": "int?"
+          },
+          {
+            "name": "name",
+            "columnType": 0,
+            "isNullable": false,
+            "dartType": "String"
+          },
+          {
+            "name": "pin",
+            "columnType": 0,
+            "isNullable": false,
+            "dartType": "String"
+          },
+          {
+            "name": "role",
+            "columnType": 0,
+            "isNullable": false,
+            "dartType": "String"
+          },
+          {
+            "name": "location",
+            "columnType": 0,
+            "isNullable": false,
+            "dartType": "String"
+          }
+        ],
+        "foreignKeys": [],
+        "indexes": [
+          {
+            "indexName": "mailroom_user_pkey",
+            "elements": [
+              {
+                "type": 0,
+                "definition": "id"
+              }
+            ],
+            "type": "btree",
+            "isUnique": true,
+            "isPrimary": true
+          }
+        ],
+        "managed": true
+      }
+    },
+    {
+      "type": "alterTable",
+      "alterTable": {
+        "name": "shipment",
+        "schema": "public",
+        "addColumns": [
+          {
+            "name": "storageLocation",
+            "columnType": 0,
+            "isNullable": true,
+            "dartType": "String?"
+          }
+        ],
+        "deleteColumns": [],
+        "modifyColumns": [],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "type": "tableDropped",
+            "message": "One or more columns are added to table \"mailroom_user\" which cannot be added in a table migration. The complete table will be deleted and recreated.",
+            "table": "mailroom_user",
+            "columns": [
+              "location"
+            ],
+            "destrucive": true
+          }
+        ]
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "type": "tableDropped",
+      "message": "One or more columns are added to table \"mailroom_user\" which cannot be added in a table migration. The complete table will be deleted and recreated.",
+      "table": "mailroom_user",
+      "columns": [
+        "location"
+      ],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}
