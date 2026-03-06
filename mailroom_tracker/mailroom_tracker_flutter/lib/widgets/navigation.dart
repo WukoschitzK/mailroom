@@ -57,7 +57,9 @@ class MailroomSidebar extends StatelessWidget {
           children: [
             Icon(icon, color: isActive ? const Color(0xFFFDE047) : Colors.grey, size: 20),
             const SizedBox(width: 16),
-            Text(label, style: TextStyle(color: isActive ? const Color(0xFFFDE047) : Colors.grey, fontSize: 14, fontWeight: isActive ? FontWeight.w600 : FontWeight.normal)),
+            Flexible(
+              child: Text(label, overflow: TextOverflow.ellipsis, style: TextStyle(color: isActive ? const Color(0xFFFDE047) : Colors.grey, fontSize: 14, fontWeight: isActive ? FontWeight.w600 : FontWeight.normal)),
+            ),
           ],
         ),
       ),
